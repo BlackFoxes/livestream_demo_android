@@ -1,5 +1,6 @@
 package cn.ucai.live.ui.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -21,17 +22,24 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.ucai.live.data.NetDao;
 import cn.ucai.live.data.TestDataRepository;
 import cn.ucai.live.data.model.LiveRoom;
 import cn.ucai.live.data.model.LiveSettings;
+import cn.ucai.live.utils.CommonUtils;
+import cn.ucai.live.utils.L;
 import cn.ucai.live.utils.Log2FileUtil;
 
 import cn.ucai.live.R;
+import cn.ucai.live.utils.OnCompleteListener;
+import cn.ucai.live.utils.ResultUtils;
+
 import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMChatRoom;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.controller.EaseUI;
 import com.hyphenate.easeui.domain.EaseUser;
+import com.hyphenate.easeui.domain.User;
 import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.hyphenate.easeui.widget.EaseAlertDialog;
 import com.hyphenate.easeui.widget.EaseImageView;
@@ -69,6 +77,7 @@ public class StartLiveActivity extends LiveBaseActivity
   private LiveSettings mSettings;
   private UStreamingProfile mStreamingProfile;
   UEasyStreaming.UEncodingType encodingType;
+  ProgressDialog pd;
 
   boolean isStarted;
 
@@ -89,10 +98,10 @@ public class StartLiveActivity extends LiveBaseActivity
     EaseUserUtils.setAppUserAvatar(StartLiveActivity.this,EMClient.getInstance().getCurrentUser(),userAvatar);
     EaseUserUtils.setUserNick(EMClient.getInstance().getCurrentUser(),usernameView);
 
-    liveId = TestDataRepository.getLiveRoomId(EMClient.getInstance().getCurrentUser());
-    chatroomId = TestDataRepository.getChatRoomId(EMClient.getInstance().getCurrentUser());
-    anchorId = EMClient.getInstance().getCurrentUser();
-//    usernameView.setText(anchorId);
+//    liveId = TestDataRepository.getLiveRoomId(EMClient.getInstance().getCurrentUser());
+//    chatroomId = TestDataRepository.getChatRoomId(EMClient.getInstance().getCurrentUser());
+//    anchorId = EMClient.getInstance().getCurrentUser();
+////    usernameView.setText(anchorId);
     initEnv();
   }
 
@@ -173,6 +182,10 @@ public class StartLiveActivity extends LiveBaseActivity
    */
   @OnClick(R.id.btn_start) void startLive() {
     //demo为了测试方便，只有指定的账号才能开启直播
+    pd = new ProgressDialog(StartLiveActivity.this);
+    pd.setMessage("创建直播...");
+    pd.show();
+    createLive();
     if (liveId == null) {
       String[] anchorIds = TestDataRepository.anchorIds;
       StringBuilder sb = new StringBuilder();
@@ -184,6 +197,10 @@ public class StartLiveActivity extends LiveBaseActivity
       return;
     }
 
+
+  }
+
+  private void startLiveByChatRoom() {
     startContainer.setVisibility(View.INVISIBLE);
     //Utils.hideKeyboard(titleEdit);
     new Thread() {
@@ -203,6 +220,46 @@ public class StartLiveActivity extends LiveBaseActivity
         } while (i >= COUNTDOWN_END_INDEX);
       }
     }.start();
+  }
+
+  private void createLive() {
+    User user=EaseUserUtils.getAppUserInfo(EMClient.getInstance().getCurrentUser());
+    NetDao.createLive(StartLiveActivity.this, user, new OnCompleteListener<String>() {
+      @Override
+      public void onSuccess(String s) {
+        L.e("startLive", "s=" + s);
+        boolean success = false;
+        pd.dismiss();
+        if (s != null) {
+          List<String> ids=ResultUtils.getEMResultFromJson(s, String.class);
+          if (ids != null && ids.size() > 0) {
+            success = true;
+            L.e("startLive","id="+ids.get(0));
+            initLive(ids.get(0));
+            startLiveByChatRoom();
+
+          }
+          if (!success) {
+            CommonUtils.showShortToast("创建直播失败！");
+          }
+//          initLive("9374368071681");
+//          startLiveByChatRoom();
+        }
+      }
+
+      @Override
+      public void onError(String error) {
+        pd.dismiss();
+        CommonUtils.showShortToast("创建直播失败！"+error);
+
+      }
+    });
+  }
+
+  private void initLive(String id) {
+    liveId=id;
+    chatroomId = id;
+    initEnv();
   }
 
   /**

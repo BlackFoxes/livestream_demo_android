@@ -2,6 +2,8 @@ package cn.ucai.live;
 
 public interface I {
 
+
+
 	public static interface User {
 		String TABLE_NAME							=		"t_superwechat_user";
 		String USER_NAME 							= 		"m_user_name";					//用户账号
@@ -210,6 +212,8 @@ public interface I {
 	String REQUEST_GET_ALL_CHATROOM                 =        "Live/getAllChatRoom";
 
 	String BACK_MAIN_FROM_CHAT						= 		"back_main_from_chat";
+
+	String REQUEST_CREATE_CHATROOM                  =       "live/createChatRoom";
 
 
 	int REQUESTCODE_PICK = 1;
