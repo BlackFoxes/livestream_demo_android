@@ -116,11 +116,10 @@ public class StartLiveActivity extends LiveBaseActivity
         ButterKnife.bind(StartLiveActivity.this);
         EaseUserUtils.setAppUserAvatar(StartLiveActivity.this, EMClient.getInstance().getCurrentUser(), userAvatar);
         EaseUserUtils.setUserNick(EMClient.getInstance().getCurrentUser(), usernameView);
-        String id = getIntent().getStringExtra("liveId");
-        if (id != null && !id.equals("")) {
-            L.e(TAG,"id="+id);
-            liveId = id;
-            chatroomId = id;
+        LiveRoom liveRoom = getIntent().getParcelableExtra("liveRoom");
+        if (liveRoom!=null) {
+            liveId = liveRoom.getId();
+            chatroomId = liveRoom.getChatroomId();
         } else {
             liveId = EMClient.getInstance().getCurrentUser();
 //            pd = new ProgressDialog(StartLiveActivity.this);
