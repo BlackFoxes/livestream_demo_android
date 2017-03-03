@@ -132,7 +132,7 @@ public interface I {
 	int MSG_ILLEGAL_REQUEST							=		-1;								//非法请求
 
 //	String SERVER_ROOT = "http://120.26.242.249:8080/SuperWeChatServerV2.0/";
-	String SERVER_ROOT = "http://101.251.196.90:8000/SuperWeChatServerV2.0/";
+	String SERVER_ROOT = "http://101.251.196.91:8888/SuperWeChatServerV2.0/";
 
 	/** 上传头像图片的类型：user_avatar或group_icon */
 	String AVATAR_TYPE 								= 		"avatarType";
@@ -214,6 +214,8 @@ public interface I {
 	String BACK_MAIN_FROM_CHAT						= 		"back_main_from_chat";
 
 	String REQUEST_CREATE_CHATROOM                  =       "live/createChatRoom";
+
+	String REQUEST_DELETE_CHATROOM                  =       "live/deleteChatRoom";
 
 
 	int REQUESTCODE_PICK = 1;
