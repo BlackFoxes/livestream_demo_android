@@ -47,6 +47,11 @@ import com.ucloud.common.util.DeviceUtils;
 import com.ucloud.live.UEasyStreaming;
 import com.ucloud.live.UStreamingProfile;
 import com.ucloud.live.widget.UAspectFrameLayout;
+
+import org.w3c.dom.Text;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -63,8 +68,6 @@ public class StartLiveActivity extends LiveBaseActivity
     RelativeLayout startContainer;
     @BindView(R.id.countdown_txtv)
     TextView countdownView;
-    @BindView(R.id.show_time)
-    TextView showTimeView;
     @BindView(R.id.tv_username)
     TextView usernameView;
     @BindView(R.id.btn_start)
@@ -110,7 +113,7 @@ public class StartLiveActivity extends LiveBaseActivity
     @Override
     protected void onActivityCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.activity_start_live);
-        ButterKnife.bind(this);
+        ButterKnife.bind(StartLiveActivity.this);
         EaseUserUtils.setAppUserAvatar(StartLiveActivity.this, EMClient.getInstance().getCurrentUser(), userAvatar);
         EaseUserUtils.setUserNick(EMClient.getInstance().getCurrentUser(), usernameView);
         String id = getIntent().getStringExtra("liveId");
@@ -301,8 +304,14 @@ public class StartLiveActivity extends LiveBaseActivity
             finish();
             return;
         }
+        long endTime = System.currentTimeMillis();
+        long time = endTime - startTime-8*60*60*1000;
+        SimpleDateFormat format = new SimpleDateFormat("HH:MM:SS");
+        String t = format.format(new Date(time));
+        L.e(TAG,"showTime="+t);
+
         removeLive();
-        showConfirmCloseLayout();
+        showConfirmCloseLayout(t);
     }
 
     private void removeLive() {
@@ -333,7 +342,7 @@ public class StartLiveActivity extends LiveBaseActivity
         }
     }
 
-    private void showConfirmCloseLayout() {
+    private void showConfirmCloseLayout(String time) {
         //显示封面
         coverImage.setVisibility(View.VISIBLE);
         EaseUserUtils.setAppUserAvatar(StartLiveActivity.this,EMClient.getInstance().getCurrentUser(),coverImage);
@@ -346,8 +355,14 @@ public class StartLiveActivity extends LiveBaseActivity
 //        }
         View view = liveEndLayout.inflate();
         Button closeConfirmBtn = (Button) view.findViewById(R.id.live_close_confirm);
-        TextView usernameView = (TextView) view.findViewById(R.id.tv_username);
-        usernameView.setText(EMClient.getInstance().getCurrentUser());
+//        TextView usernameView = (TextView) view.findViewById(R.id.tv_username);
+        TextView nameView = (TextView) view.findViewById(R.id.finish_tv_username);
+        TextView showTimeView = (TextView) findViewById(R.id.finish_show_time);
+        EaseImageView finishUserAvatar = (EaseImageView) view.findViewById(R.id.finish_eiv_avatar);
+//        usernameView.setText(EMClient.getInstance().getCurrentUser());
+        EaseUserUtils.setAppUserAvatar(StartLiveActivity.this,EMClient.getInstance().getCurrentUser(),finishUserAvatar);
+        EaseUserUtils.setUserNick(EMClient.getInstance().getCurrentUser(),nameView);
+        showTimeView.setText(time);
         closeConfirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -355,11 +370,9 @@ public class StartLiveActivity extends LiveBaseActivity
             }
         });
     }
-
     private void confirmClose() {
 
     }
-
     /**
      * 打开或关闭闪关灯
      */
