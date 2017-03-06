@@ -217,6 +217,8 @@ public interface I {
 
 	String REQUEST_DELETE_CHATROOM                  =       "live/deleteChatRoom";
 
+	String REQUEST_ALL_GIFTS                        =       "live/getAllGifts";
+
 
 	int REQUESTCODE_PICK = 1;
 	int REQUESTCODE_CUTTING = 2;
