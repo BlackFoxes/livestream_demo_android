@@ -79,16 +79,20 @@ public class EaseUserUtils {
     public static void setAppUserAvatar(Context context, String username, ImageView imageView){
         User user = getAppUserInfo(username);
         if(user != null && user.getAvatar() != null){
-            setAppUserAvatarByPath(context,user.getAvatar(),imageView);
+            setAppUserAvatarByPath(context,user.getAvatar(),imageView,null);
         } else if (username!=null) {
             user = new User(username);
-            setAppUserAvatarByPath(context,user.getAvatar(),imageView);
+            setAppUserAvatarByPath(context,user.getAvatar(),imageView,null);
         }else{
             Glide.with(context).load(R.drawable.default_hd_avatar).into(imageView);
         }
     }
 
-    public static void setAppUserAvatarByPath(Context context,String path,ImageView imageView){
+    public static void setAppUserAvatarByPath(Context context,String path,ImageView imageView,String groupId){
+        int default_avatar=R.drawable.default_hd_avatar;
+        if (groupId!=null&&groupId.equals("cn.ucai.live.gift")) {
+            default_avatar=R.drawable.gift_star;
+        }
         if(path != null){
             try {
                 int avatarResId = Integer.parseInt(path);

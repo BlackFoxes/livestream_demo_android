@@ -48,12 +48,12 @@ public class DbOpenHelper extends SQLiteOpenHelper{
 			+ UserDao.USER_COLUMN_NAME_AVATAR_TYPE + " INTEGER,"
 			+ UserDao.USER_COLUMN_NAME_AVATAR_UPDATE_TIME + " TEXT);";
 
-	private static final String GIFT_TABLE_CREATE = "CREATE_TABLE"
+	private static final String GIFT_TABLE_CREATE = "CREATE TABLE "
 			+ UserDao.GIFT_TABLE_NAME + "("
+			+ UserDao.GIFT_COLUMN_ID + "INTEGER PRIMARY KEY,"
 			+ UserDao.GIFT_COLUMN_NAME + "TEXT,"
-			+ UserDao.GIFT_COLUMN_URI + "TEXT"
-			+ UserDao.GIFT_COLUMN_PRICE + "INTEGER"
-			+ UserDao.GIFT_COLUMN_ID + "INTEGER PRIMARY KEY);";
+			+ UserDao.GIFT_COLUMN_URI + "TEXT,"
+			+ UserDao.GIFT_COLUMN_PRICE + "INTEGER);";
 	
 	private DbOpenHelper(Context context) {
 		super(context, getUserDatabaseName(), null, DATABASE_VERSION);
