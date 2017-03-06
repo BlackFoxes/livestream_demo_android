@@ -305,7 +305,7 @@ public class StartLiveActivity extends LiveBaseActivity
         }
         long endTime = System.currentTimeMillis();
         long time = endTime - startTime-8*60*60*1000;
-        SimpleDateFormat format = new SimpleDateFormat("HH:MM:SS");
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
         String t = format.format(new Date(time));
         L.e(TAG,"showTime="+t);
 
