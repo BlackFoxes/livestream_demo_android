@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,7 +22,6 @@ import cn.ucai.live.ui.widget.PeriscopeLayout;
 import cn.ucai.live.ui.widget.RoomMessagesView;
 import cn.ucai.live.utils.Utils;
 
-import com.bumptech.glide.Glide;
 import cn.ucai.live.LiveConstants;
 import cn.ucai.live.R;
 
@@ -40,6 +38,7 @@ import com.hyphenate.chat.EMCmdMessageBody;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMTextMessageBody;
+import com.hyphenate.easeui.domain.User;
 import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.EMLog;
@@ -252,7 +251,7 @@ public abstract class LiveBaseActivity extends BaseActivity {
         if (username.equals(chatroomId)) {
           if (message.getBooleanAttribute(LiveConstants.EXTRA_IS_BARRAGE_MSG, false)) {
             barrageLayout.addBarrage(((EMTextMessageBody) message.getBody()).getMessage(),
-                message.getFrom());
+                message.getFrom(), message.getStringAttribute(I.User.NICK,message.getFrom()));
           }
           messageView.refreshSelectLast();
         } else {
@@ -302,11 +301,15 @@ public abstract class LiveBaseActivity extends BaseActivity {
         messageView.setMessageViewListener(new RoomMessagesView.MessageViewListener() {
           @Override public void onMessageSend(String content) {
             EMMessage message = EMMessage.createTxtSendMessage(content, chatroomId);
+            User user=EaseUserUtils.getAppUserInfo(EMClient.getInstance().getCurrentUser());
+            message.setAttribute(I.User.NICK,user.getMUserNick());
             if (messageView.isBarrageShow) {
               message.setAttribute(LiveConstants.EXTRA_IS_BARRAGE_MSG, true);
-              barrageLayout.addBarrage(content, EMClient.getInstance().getCurrentUser());
+
+              barrageLayout.addBarrage(content, EMClient.getInstance().getCurrentUser(),user.getMUserNick());
             }
             message.setChatType(EMMessage.ChatType.ChatRoom);
+
             EMClient.getInstance().chatManager().sendMessage(message);
             message.setMessageStatusCallback(new EMCallBack() {
               @Override public void onSuccess() {
