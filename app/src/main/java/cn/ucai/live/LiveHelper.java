@@ -50,6 +50,7 @@ import java.util.UUID;
 import cn.ucai.live.data.NetDao;
 import cn.ucai.live.data.local.LiveDBManager;
 import cn.ucai.live.data.local.UserDao;
+import cn.ucai.live.data.model.Gift;
 import cn.ucai.live.data.model.Result;
 import cn.ucai.live.ui.activity.ChatActivity;
 import cn.ucai.live.ui.activity.LoginActivity;
@@ -113,8 +114,11 @@ public class LiveHelper {
 
     private Map<String, User> appContactList;
 
+    private Map<Integer, Gift> appGiftList;
 
-	private static LiveHelper instance = null;
+
+
+    private static LiveHelper instance = null;
 
 	private LiveModel demoModel = null;
 
@@ -189,11 +193,32 @@ public class LiveHelper {
             setGlobalListeners();
 			broadcastManager = LocalBroadcastManager.getInstance(appContext);
 	        initDbDao();
-		}
+            initGiftList();
+        }
 	}
 
+    private void initGiftList() {
+        NetDao.loadAllGift(appContext, new OnCompleteListener<String>() {
+            @Override
+            public void onSuccess(String s) {
+                if (s != null) {
+                    Result result = ResultUtils.getListResultFromJson(s, Gift.class);
 
-	private EMOptions initChatOptions(){
+                }
+
+            }
+
+            @Override
+            public void onError(String error) {
+
+            }
+        });
+
+
+    }
+
+
+    private EMOptions initChatOptions(){
         Log.d(TAG, "init HuanXin Options");
 
         EMOptions options = new EMOptions();
@@ -1166,5 +1191,41 @@ public class LiveHelper {
         ArrayList<User> mList = new ArrayList<User>();
         mList.addAll(appContactList.values());
         demoModel.saveAppContactList(mList);
+    }
+
+
+    /**
+     * update contact list
+     *
+     * @param list
+     */
+    public void setAppGiftList(Map<Integer, Gift> list) {
+        if(list == null){
+            if (appGiftList != null) {
+                appGiftList.clear();
+            }
+            return;
+        }
+
+        appGiftList = list;
+    }
+
+
+    /**
+     * get contact list
+     *
+     * @return
+     */
+    public Map<Integer, Gift> getAppGiftList() {
+        if ( appGiftList == null || appGiftList.size()==0) {
+            appGiftList = demoModel.getAppGiftList();
+        }
+
+        // return a empty non-null object to avoid app crash
+        if(appGiftList == null){
+            return new Hashtable<Integer, Gift>();
+        }
+
+        return appGiftList;
     }
 }
