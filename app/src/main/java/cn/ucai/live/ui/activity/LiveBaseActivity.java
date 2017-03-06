@@ -16,10 +16,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.ucai.live.I;
+import cn.ucai.live.LiveHelper;
 import cn.ucai.live.data.TestAvatarRepository;
 import cn.ucai.live.ui.widget.LiveLeftGiftView;
 import cn.ucai.live.ui.widget.PeriscopeLayout;
 import cn.ucai.live.ui.widget.RoomMessagesView;
+import cn.ucai.live.utils.L;
 import cn.ucai.live.utils.Utils;
 
 import cn.ucai.live.LiveConstants;
@@ -113,6 +115,7 @@ public abstract class LiveBaseActivity extends BaseActivity {
         leftGiftView.setVisibility(View.VISIBLE);
         leftGiftView.setAvatar(message.getFrom());
         leftGiftView.setName(message.getStringAttribute(I.User.NICK,message.getFrom()));
+        leftGiftView.setGift(message.getIntAttribute(LiveConstants.CMD_GIFT, 0));
         leftGiftView.setTranslationY(0);
         ViewAnimator.animate(leftGiftView)
             .alpha(0, 1)
@@ -153,6 +156,8 @@ public abstract class LiveBaseActivity extends BaseActivity {
       @Override public void run() {
         leftGiftView2.setVisibility(View.VISIBLE);
         leftGiftView2.setAvatar(message.getFrom());
+        leftGiftView2.setGift(message.getIntAttribute(LiveConstants.CMD_GIFT, 0));
+        leftGiftView2.setTranslationY(0);
         leftGiftView2.setName(message.getStringAttribute(I.User.NICK,message.getFrom()));
         leftGiftView2.setTranslationY(0);
         ViewAnimator.animate(leftGiftView2)
@@ -446,7 +451,32 @@ public abstract class LiveBaseActivity extends BaseActivity {
   @OnClick(R.id.present_image) void onPresentImageClick() {
     final RoomGiftListDialog dialog =
             RoomGiftListDialog.newInstance();
+    dialog.setGiftOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        int id = (int) v.getTag();
+        sentGiftMsg(id);
+
+
+      }
+    });
     dialog.show(getSupportFragmentManager(), "RoomGiftListDialog");
+  }
+
+  private void sentGiftMsg(int id) {
+    User user = EaseUserUtils.getAppUserInfo(EMClient.getInstance().getCurrentUser());
+    L.e(TAG,"send present,user="+user);
+    EMMessage message = EMMessage.createSendMessage(EMMessage.Type.CMD);
+    message.setReceipt(chatroomId);
+    EMCmdMessageBody cmdMessageBody = new EMCmdMessageBody(LiveConstants.CMD_GIFT);
+    message.addBody(cmdMessageBody);
+    message.setAttribute(I.User.NICK,user.getMUserNick());
+    message.setAttribute(LiveConstants.CMD_GIFT,id);
+    message.setChatType(EMMessage.ChatType.ChatRoom);
+    EMClient.getInstance().chatManager().sendMessage(message);
+    showLeftGiftVeiw(message);
+
+
   }
 
 
