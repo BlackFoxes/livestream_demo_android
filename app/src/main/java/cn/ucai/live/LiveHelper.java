@@ -203,6 +203,27 @@ public class LiveHelper {
             public void onSuccess(String s) {
                 if (s != null) {
                     Result result = ResultUtils.getListResultFromJson(s, Gift.class);
+                    if (result != null && result.isRetMsg()) {
+                        List<Gift> list= (List<Gift>) result.getRetData();
+                        if (list != null && list.size() != 0) {
+                            L.e(TAG,"list="+list);
+                            Map<Integer, Gift> giftlist = new HashMap<Integer, Gift>();
+                            for (Gift gift : list) {
+                                giftlist.put(gift.getId(), gift);
+
+                            }
+                            getAppGiftList().clear();
+                            getAppGiftList().putAll(giftlist);
+
+                            UserDao dao = new UserDao(appContext);
+                            List<Gift> gifts = new ArrayList<Gift>(giftlist.values());
+                            dao.saveAppGiftList(gifts);
+
+                        }
+
+                    }
+
+
 
                 }
 
