@@ -302,7 +302,24 @@ public interface I {
     int REQUESTCODE_MEMBER = 3;
     int GIFT_COLUMN_COUNT = 4;
     String TYPE_GIFT = "cn.ucai.live.gift";
+
     String REQUEST_GIVING_GIFT ="live/givingGifts" ;
+
+    String REQUEST_RECHARGE = "live/recharge";
+
+
+
+    String GIFT_STATEMENT_TYPE = "cn.ucai.live_gift_statement_type";
+   	int GIFT_STATEMENT_TYPE_GIBVING = 0;
+    int GIFT_STATEMENT_TYPE_RECEIVING = 1;
+
+
+    String REQUEST_GIVING_GIFT_TATEMENT = "live/getGivingGiftStatements";
+
+
+    String REQUEST_RECEIVING_GIFT_STATEMENT = "live/getReceivingGiftStatementsServlet";
+
+
 
 
 }

@@ -7,6 +7,12 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         style="@style/ToolbarNormal">
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ease_back"
+            />
 
         <TextView
             style="@style/TitleNormal"
@@ -96,7 +102,7 @@
         <View style="@style/DividerStyleNoHead" />
 
         <TextView
-            android:id="@+id/tv_my_bankcard"
+            android:id="@+id/tv_my_giving_gift_list"
             style="@style/ChangeLeftTextViewStyle"
             android:drawableLeft="@drawable/rp_my_bankcard"
             android:text="@string/my_bank_card" />
@@ -104,7 +110,7 @@
         <View style="@style/DividerStyleNoHead" />
 
         <TextView
-            android:id="@+id/tv_my_red_packet_records"
+            android:id="@+id/tv_my_gift_records"
             style="@style/ChangeLeftTextViewStyle"
             android:layout_marginBottom="@dimen/size48px"
             android:drawableLeft="@drawable/rp_red_packet_records"
@@ -181,9 +187,10 @@
         android:id="@+id/target_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"
-        android:layout_centerInParent="true"
-        android:orientation="vertical" />
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 
 </RelativeLayout>

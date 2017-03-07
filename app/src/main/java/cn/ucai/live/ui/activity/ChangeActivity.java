@@ -11,11 +11,14 @@ import com.hyphenate.chat.EMClient;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import cn.ucai.live.I;
 import cn.ucai.live.R;
 import cn.ucai.live.data.NetDao;
 import cn.ucai.live.data.model.Result;
 import cn.ucai.live.data.model.Wallet;
 import cn.ucai.live.utils.CommonUtils;
+import cn.ucai.live.utils.MFGT;
 import cn.ucai.live.utils.OnCompleteListener;
 import cn.ucai.live.utils.PreferenceManager;
 import cn.ucai.live.utils.ResultUtils;
@@ -69,6 +72,25 @@ public class ChangeActivity extends AppCompatActivity {
             }
         });
     }
+
+    @OnClick(R.id.img_back)
+       public void imgBack() {
+               MFGT.finish(ChangeActivity.this);
+           }
+
+    @OnClick({R.id.tv_my_giving_gift_list, R.id.tv_my_gift_records})
+       public void myGiftList(View view) {
+               int giftListType = I.GIFT_STATEMENT_TYPE_GIBVING;
+               switch (view.getId()) {
+                       case R.id.tv_my_giving_gift_list:
+                               giftListType = I.GIFT_STATEMENT_TYPE_GIBVING;
+                               break;
+                       case R.id.tv_my_gift_records:
+                               giftListType = I.GIFT_STATEMENT_TYPE_RECEIVING;
+                               break;
+                   }
+               MFGT.gotoGiftstatementsList(ChangeActivity.this,giftListType);
+           }
 
     private void setChange() {
         change = PreferenceManager.getInstance().getCurrentuserChange();

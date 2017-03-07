@@ -72,7 +72,9 @@
         <service
             android:name="com.hyphenate.chat.EMChatService"
             android:exported="true" />
-        <activity android:name=".ui.activity.ChangeActivity"></activity>
+
+        <activity android:name=".ui.activity.ChangeActivity" />
+        <activity android:name=".ui.activity.GiftStatementsList"></activity>
     </application>
 
 </manifest>
