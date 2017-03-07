@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/activity_change"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
- >
+    android:layout_height="match_parent">
+
     <android.support.v7.widget.Toolbar
-        style="@style/ToolbarNormal"
         android:id="@+id/toolbar"
-        >
+        style="@style/ToolbarNormal">
+
         <TextView
             style="@style/TitleNormal"
-            android:text="我的钱包"
-            />
+            android:text="我的钱包" />
     </android.support.v7.widget.Toolbar>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_below="@+id/toolbar"
+        android:orientation="vertical"
+
+        >
 
         <LinearLayout
             android:id="@+id/change_top_ll"
@@ -36,7 +36,7 @@
                 android:gravity="center"
                 android:text="@string/str_my_change"
                 android:textColor="@color/rp_money_white"
-                android:textSize="@dimen/font42px"/>
+                android:textSize="@dimen/font42px" />
 
             <TextView
                 android:id="@+id/tv_change_balance"
@@ -46,11 +46,11 @@
                 android:gravity="center"
                 android:text="@string/rp_str_change_balance"
                 android:textColor="@color/rp_money_white"
-                android:textSize="@dimen/font129px"/>
+                android:textSize="@dimen/font129px" />
 
             <View
                 style="@style/DividerStyle"
-                android:layout_marginTop="@dimen/size90px"/>
+                android:layout_marginTop="@dimen/size90px" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -65,12 +65,12 @@
                     android:gravity="center"
                     android:text="@string/change_recharge"
                     android:textColor="@color/rp_money_white"
-                    android:textSize="@dimen/font51px"/>
+                    android:textSize="@dimen/font51px" />
 
                 <View
                     android:layout_width="1px"
                     android:layout_height="match_parent"
-                    android:background="@color/rp_divider_color"/>
+                    android:background="@color/rp_divider_color" />
 
                 <TextView
                     android:id="@+id/tv_change_withdraw"
@@ -80,7 +80,7 @@
                     android:gravity="center"
                     android:text="@string/str_withdraw"
                     android:textColor="@color/rp_money_white"
-                    android:textSize="@dimen/font51px"/>
+                    android:textSize="@dimen/font51px" />
 
             </LinearLayout>
         </LinearLayout>
@@ -91,28 +91,24 @@
             style="@style/ChangeLeftTextViewStyle"
             android:layout_marginTop="@dimen/size48px"
             android:drawableLeft="@drawable/rp_change_details"
-            android:text="@string/change_detail"/>
+            android:text="@string/change_detail" />
 
-        <View
-            style="@style/DividerStyleNoHead"
-            />
+        <View style="@style/DividerStyleNoHead" />
 
         <TextView
             android:id="@+id/tv_my_bankcard"
             style="@style/ChangeLeftTextViewStyle"
             android:drawableLeft="@drawable/rp_my_bankcard"
-            android:text="@string/my_bank_card"/>
+            android:text="@string/my_bank_card" />
 
-        <View
-            style="@style/DividerStyleNoHead"
-            />
+        <View style="@style/DividerStyleNoHead" />
 
         <TextView
             android:id="@+id/tv_my_red_packet_records"
             style="@style/ChangeLeftTextViewStyle"
             android:layout_marginBottom="@dimen/size48px"
             android:drawableLeft="@drawable/rp_red_packet_records"
-            android:text="@string/my_money_records"/>
+            android:text="@string/my_money_records" />
 
         <RelativeLayout
             android:id="@+id/layout_verify_identity"
@@ -130,7 +126,7 @@
                 android:gravity="center_vertical"
                 android:text="@string/verify_identity"
                 android:textColor="@color/rp_text_black"
-                android:textSize="@dimen/font48px"/>
+                android:textSize="@dimen/font48px" />
 
             <TextView
                 android:id="@+id/tv_verify_identity"
@@ -144,29 +140,27 @@
                 android:gravity="center_vertical"
                 android:text="@string/no_verify"
                 android:textColor="@color/rp_text_light_grey"
-                android:textSize="@dimen/font48px"/>
+                android:textSize="@dimen/font48px" />
         </RelativeLayout>
 
         <View
             android:id="@+id/view_line_three"
             style="@style/DividerStyleNoHead"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tv_forget_pay_pwd"
             style="@style/ChangeLeftTextViewStyle"
             android:drawableLeft="@drawable/rp_forget_pwd"
-            android:text="@string/manage_pay_pwd"/>
+            android:text="@string/manage_pay_pwd" />
 
-        <View
-            style="@style/DividerStyleNoHead"
-            />
+        <View style="@style/DividerStyleNoHead" />
 
         <TextView
             android:id="@+id/tv_common_problem"
             style="@style/ChangeLeftTextViewStyle"
             android:drawableLeft="@drawable/rp_question_black"
-            android:text="@string/title_common_problem"/>
+            android:text="@string/title_common_problem" />
 
         <TextView
             android:id="@+id/tv_powered_by"
@@ -175,13 +169,21 @@
             android:layout_marginTop="@dimen/size144px"
             android:gravity="center"
             android:textColor="@color/rp_text_light_grey"
-            android:textSize="@dimen/font33px"/>
+            android:textSize="@dimen/font33px" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/size36px"/>
+            android:layout_marginTop="@dimen/size36px" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/target_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:layout_centerInParent="true"
+        android:orientation="vertical" />
 
-</LinearLayout>
+
+</RelativeLayout>
