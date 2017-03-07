@@ -294,6 +294,9 @@ public interface I {
     String REQUEST_ALL_GIFTS = "live/getAllGifts";
 
 
+    String REQUEST_BALANCE = "live/getBalance";
+
+
     int REQUESTCODE_PICK = 1;
     int REQUESTCODE_CUTTING = 2;
     int REQUESTCODE_MEMBER = 3;
