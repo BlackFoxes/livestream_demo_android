@@ -27,7 +27,7 @@ public class ChangeActivity extends AppCompatActivity {
     @BindView(R.id.target_layout)
     LinearLayout targetLayout;
     View loadingView;
-    int change;
+    long change;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

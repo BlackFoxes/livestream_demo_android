@@ -302,5 +302,7 @@ public interface I {
     int REQUESTCODE_MEMBER = 3;
     int GIFT_COLUMN_COUNT = 4;
     String TYPE_GIFT = "cn.ucai.live.gift";
+    String REQUEST_GIVING_GIFT ="live/givingGifts" ;
+
 
 }
